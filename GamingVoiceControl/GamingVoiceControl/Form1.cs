@@ -4,8 +4,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Speech.Recognition;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,15 +15,20 @@ namespace GamingVoiceControl
 {
     public partial class GVC : Form
     {
+        //key is the phrase spoken and value is the resulting output
         Dictionary<string, string> ControlDict = new Dictionary<string, string>();
         SpeechRecognitionEngine SRE = new SpeechRecognitionEngine();
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
 
         public GVC()
         {
             InitializeComponent();
             ControlGrid.RowStateChanged += ControlGrid_RowStateChanged;
-            
         }
+
+        
 
         private void ControlGrid_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
         {
@@ -64,7 +71,7 @@ namespace GamingVoiceControl
                 {
                     if (DVR.Cells[0].Value != null && DVR.Cells[1].Value != null)
                     {
-                        ControlDict.Add((string)DVR.Cells[0].Value, (string)DVR.Cells[1].Value);
+                        ControlDict.Add((string)DVR.Cells[1].Value, (string)DVR.Cells[0].Value);
                         MessageBox.Show((string)DVR.Cells[0].Value + " " + (string)DVR.Cells[1].Value);
                     }
                 }
@@ -76,7 +83,78 @@ namespace GamingVoiceControl
 
         private void GenerateSRE()
         {
+            SRE = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("en-EN"));
+            //Use the microphone
+            SRE.SetInputToDefaultAudioDevice();
+            Choices Words = new Choices();
+            //key is the phrase spoken, value is the output command
+            foreach(string Phrase in ControlDict.Keys)
+            {
+                Words.Add(Phrase);
+            }
+            GrammarBuilder gb = new GrammarBuilder();
+            gb.Append(Words);
+            gb.Culture = Thread.CurrentThread.CurrentCulture;
+            Grammar g = new Grammar(gb);
+            SRE.LoadGrammar(g);
+            SRE.SpeechRecognized += SRE_SpeechRecognized;
+            SRE.RecognizeAsync();
+        }
 
+        private void SRE_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            //make sure we're executing here
+            if (!StartButton.Enabled)
+            {
+                //find phrase in dict, use value as input
+                if (ControlDict.ContainsKey(e.Result.Text))
+                {
+                    string ThingToInput = ControlDict[e.Result.Text];
+                    //Check for mouse controls
+                    if (ThingToInput.Contains("mouse_"))
+                    {
+                         const int MOUSEEVENTF_LEFTDOWN = 0x02;
+                         const int MOUSEEVENTF_LEFTUP = 0x04;
+                         const int MOUSEEVENTF_RIGHTDOWN = 0x08;
+                         const int MOUSEEVENTF_RIGHTUP = 0x10;
+                        
+                        if (ThingToInput.Contains("mouse_leftclick"))
+                        {
+                            uint X = (uint)Cursor.Position.X;
+                            uint Y = (uint)Cursor.Position.Y;
+                            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
+                            MessageBox.Show("Moving left down");
+                        }
+                        else if (ThingToInput.Contains("mouse_rightclick"))
+                        {
+                            uint X = (uint)Cursor.Position.X;
+                            uint Y = (uint)Cursor.Position.Y;
+                            mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, X, Y, 0, 0);
+                            MessageBox.Show("Moving right down");
+                        }
+                    }
+                    else
+                    {
+                        SendKeys.Send(ThingToInput);
+                        MessageBox.Show("moving " + ThingToInput);
+                    }
+                }
+
+              
+            }
+        }
+
+        private void StopButton_Click(object sender, EventArgs e)
+        {
+            SRE.Dispose();
+            StartButton.Enabled = true;
+            StopButton.Enabled = false;
+        }
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            StopButton.Enabled = true;
+            StartButton.Enabled = false;
         }
     }
 }
