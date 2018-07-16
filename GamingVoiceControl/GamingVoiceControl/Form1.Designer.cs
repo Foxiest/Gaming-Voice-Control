@@ -39,6 +39,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.UpdatePhrasesButton = new System.Windows.Forms.Button();
             this.Duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProcessNameBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.UpdateProccessName = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ControlGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -143,11 +146,42 @@
             this.Duration.HeaderText = "Duration (ms)";
             this.Duration.Name = "Duration";
             // 
+            // ProcessNameBox
+            // 
+            this.ProcessNameBox.Location = new System.Drawing.Point(289, 355);
+            this.ProcessNameBox.Name = "ProcessNameBox";
+            this.ProcessNameBox.Size = new System.Drawing.Size(189, 20);
+            this.ProcessNameBox.TabIndex = 8;
+            this.ProcessNameBox.TextChanged += new System.EventHandler(this.ProcessNameBox_TextChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(400, 338);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(77, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Process name:";
+            // 
+            // UpdateProccessName
+            // 
+            this.UpdateProccessName.Enabled = false;
+            this.UpdateProccessName.Location = new System.Drawing.Point(229, 353);
+            this.UpdateProccessName.Name = "UpdateProccessName";
+            this.UpdateProccessName.Size = new System.Drawing.Size(54, 23);
+            this.UpdateProccessName.TabIndex = 10;
+            this.UpdateProccessName.Text = "Update";
+            this.UpdateProccessName.UseVisualStyleBackColor = true;
+            this.UpdateProccessName.Click += new System.EventHandler(this.UpdateProccessName_Click);
+            // 
             // GVC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(490, 390);
+            this.Controls.Add(this.UpdateProccessName);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.ProcessNameBox);
             this.Controls.Add(this.UpdatePhrasesButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.inpLabel);
@@ -177,6 +211,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button UpdatePhrasesButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn Duration;
+        private System.Windows.Forms.TextBox ProcessNameBox;
+        private System.Windows.Forms.Label label2;
+        public System.Windows.Forms.Button UpdateProccessName;
     }
 }
 

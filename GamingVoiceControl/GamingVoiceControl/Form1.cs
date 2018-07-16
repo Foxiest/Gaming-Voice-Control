@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -11,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsInput;
+using WindowsInput.Native;
 
 namespace GamingVoiceControl
 {
@@ -20,9 +22,13 @@ namespace GamingVoiceControl
         Dictionary<string, string> ControlDict = new Dictionary<string, string>();
         Dictionary<string, int> DurationDict = new Dictionary<string, int>();
         SpeechRecognitionEngine SRE = new SpeechRecognitionEngine();
+        public string ProcessName = "";
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
+
+        [DllImport("User32.dll")]
+        static extern int SetForegroundWindow(IntPtr point);
 
         public GVC()
         {
@@ -113,52 +119,66 @@ namespace GamingVoiceControl
                 //find phrase in dict, use value as input
                 if (ControlDict.ContainsKey(e.Result.Text))
                 {
-                    string ThingToInput = ControlDict[e.Result.Text];
-                    //Check for mouse controls
-                    if (ThingToInput.Contains("mouse_"))
+                    Process p = Process.GetProcessesByName(ProcessName).FirstOrDefault();
+                    if (p != null)
                     {
-                         const int MOUSEEVENTF_LEFTDOWN = 0x02;
-                         const int MOUSEEVENTF_LEFTUP = 0x04;
-                         const int MOUSEEVENTF_RIGHTDOWN = 0x08;
-                         const int MOUSEEVENTF_RIGHTUP = 0x10;
-                        
-                        if (ThingToInput.Contains("mouse_leftclick"))
-                        {
-                            uint X = (uint)Cursor.Position.X;
-                            uint Y = (uint)Cursor.Position.Y;
-                            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
-                            //MessageBox.Show("Moving left down");
-                        }
-                        else if (ThingToInput.Contains("mouse_rightclick"))
-                        {
-                            uint X = (uint)Cursor.Position.X;
-                            uint Y = (uint)Cursor.Position.Y;
-                            mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, X, Y, 0, 0);
-                            //MessageBox.Show("Moving right down");
-                        } 
 
-                        MessageBox.Show("mouse worked");
-                    }
-                    else
-                    {
-                        //MessageBox.Show("GOT COMMAND");
-
-                        /*
-                            InputSimulator IS = new InputSimulator();
-                            IS.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.VK_W);
-                            Thread.Sleep(DurationDict[e.Result.Text]);
-                            IS.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.VK_W);
-                            */
-
-                        SendKeys.Send(ThingToInput);
-                        
+                        IntPtr h = p.MainWindowHandle;
+                        SetForegroundWindow(h);
                        
-                        //MessageBox.Show("moving " + ThingToInput);
+
+
+                        string ThingToInput = ControlDict[e.Result.Text];
+                        //Check for mouse controls
+                        if (ThingToInput.Contains("mouse_"))
+                        {
+                            const int MOUSEEVENTF_LEFTDOWN = 0x02;
+                            const int MOUSEEVENTF_LEFTUP = 0x04;
+                            const int MOUSEEVENTF_RIGHTDOWN = 0x08;
+                            const int MOUSEEVENTF_RIGHTUP = 0x10;
+
+                            if (ThingToInput.Contains("mouse_leftclick"))
+                            {
+                                InputSimulator IS = new InputSimulator();
+                                IS.Mouse.LeftButtonClick();
+                                /*
+                                uint X = (uint)Cursor.Position.X;
+                                uint Y = (uint)Cursor.Position.Y;
+                                mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
+                                //MessageBox.Show("Moving left down");
+                                */
+                            }
+                            else if (ThingToInput.Contains("mouse_rightclick"))
+                            {
+                                IS.Mouse.LeftButtonClick();
+                                //MessageBox.Show("Moving right down");
+                            }
+
+                            //MessageBox.Show("mouse worked");
+                        }
+                        else
+                        {
+                            //MessageBox.Show("GOT COMMAND");
+
+                           
+                                InputSimulator IS = new InputSimulator();
+                                var x = GetKeyCode(Convert.ToChar(ThingToInput.ToUpper()));
+                                IS.Keyboard.KeyDown(x);
+                                Thread.Sleep(DurationDict[e.Result.Text]);
+                                IS.Keyboard.KeyUp(x);
+                            //MessageBox.Show("moving " + ThingToInput);
+                        }
                     }
                 }
 
               
             }
+        }
+
+        private VirtualKeyCode GetKeyCode(char input)
+        {
+            int code = (byte)input;
+            return (VirtualKeyCode)code;
         }
 
         private void StopButton_Click(object sender, EventArgs e)
@@ -172,6 +192,17 @@ namespace GamingVoiceControl
         {
             StopButton.Enabled = true;
             StartButton.Enabled = false;
+        }
+
+        private void ProcessNameBox_TextChanged(object sender, EventArgs e)
+        {
+            UpdateProccessName.Enabled = true;
+        }
+
+        private void UpdateProccessName_Click(object sender, EventArgs e)
+        {
+            ProcessName = ProcessNameBox.Text;
+            UpdateProccessName.Enabled = false;
         }
     }
 }
