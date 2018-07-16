@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsInput;
 
 namespace GamingVoiceControl
 {
@@ -17,6 +18,7 @@ namespace GamingVoiceControl
     {
         //key is the phrase spoken and value is the resulting output
         Dictionary<string, string> ControlDict = new Dictionary<string, string>();
+        Dictionary<string, int> DurationDict = new Dictionary<string, int>();
         SpeechRecognitionEngine SRE = new SpeechRecognitionEngine();
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
@@ -65,6 +67,7 @@ namespace GamingVoiceControl
         {
             //make sre and enable
             ControlDict = new Dictionary<string, string>();
+            DurationDict = new Dictionary<string, int>();
             foreach(DataGridViewRow DVR in ControlGrid.Rows)
             {
                 if (!DVR.IsNewRow)
@@ -72,6 +75,7 @@ namespace GamingVoiceControl
                     if (DVR.Cells[0].Value != null && DVR.Cells[1].Value != null)
                     {
                         ControlDict.Add((string)DVR.Cells[1].Value, (string)DVR.Cells[0].Value);
+                        DurationDict.Add((string)DVR.Cells[1].Value, Convert.ToInt32(DVR.Cells[2].Value));
                         MessageBox.Show((string)DVR.Cells[0].Value + " " + (string)DVR.Cells[1].Value);
                     }
                 }
@@ -98,7 +102,7 @@ namespace GamingVoiceControl
             Grammar g = new Grammar(gb);
             SRE.LoadGrammar(g);
             SRE.SpeechRecognized += SRE_SpeechRecognized;
-            SRE.RecognizeAsync();
+            SRE.RecognizeAsync(RecognizeMode.Multiple);
         }
 
         private void SRE_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
@@ -123,20 +127,33 @@ namespace GamingVoiceControl
                             uint X = (uint)Cursor.Position.X;
                             uint Y = (uint)Cursor.Position.Y;
                             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
-                            MessageBox.Show("Moving left down");
+                            //MessageBox.Show("Moving left down");
                         }
                         else if (ThingToInput.Contains("mouse_rightclick"))
                         {
                             uint X = (uint)Cursor.Position.X;
                             uint Y = (uint)Cursor.Position.Y;
                             mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, X, Y, 0, 0);
-                            MessageBox.Show("Moving right down");
-                        }
+                            //MessageBox.Show("Moving right down");
+                        } 
+
+                        MessageBox.Show("mouse worked");
                     }
                     else
                     {
+                        //MessageBox.Show("GOT COMMAND");
+
+                        /*
+                            InputSimulator IS = new InputSimulator();
+                            IS.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.VK_W);
+                            Thread.Sleep(DurationDict[e.Result.Text]);
+                            IS.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.VK_W);
+                            */
+
                         SendKeys.Send(ThingToInput);
-                        MessageBox.Show("moving " + ThingToInput);
+                        
+                       
+                        //MessageBox.Show("moving " + ThingToInput);
                     }
                 }
 

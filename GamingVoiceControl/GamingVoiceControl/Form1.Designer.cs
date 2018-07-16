@@ -29,15 +29,16 @@
         private void InitializeComponent()
         {
             this.ControlGrid = new System.Windows.Forms.DataGridView();
+            this.Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Phrase = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StartButton = new System.Windows.Forms.Button();
             this.StopButton = new System.Windows.Forms.Button();
             this.AddButton = new System.Windows.Forms.Button();
             this.RemoveInputButton = new System.Windows.Forms.Button();
-            this.Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Phrase = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.inpLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.UpdatePhrasesButton = new System.Windows.Forms.Button();
+            this.Duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ControlGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,13 +47,26 @@
             this.ControlGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ControlGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Input,
-            this.Phrase});
+            this.Phrase,
+            this.Duration});
             this.ControlGrid.Location = new System.Drawing.Point(12, 46);
             this.ControlGrid.Name = "ControlGrid";
             this.ControlGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ControlGrid.Size = new System.Drawing.Size(252, 289);
+            this.ControlGrid.Size = new System.Drawing.Size(333, 289);
             this.ControlGrid.TabIndex = 0;
             this.ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ControlGrid_CellContentClick);
+            // 
+            // Input
+            // 
+            this.Input.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Input.HeaderText = "Input";
+            this.Input.Name = "Input";
+            // 
+            // Phrase
+            // 
+            this.Phrase.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Phrase.HeaderText = "phrase";
+            this.Phrase.Name = "Phrase";
             // 
             // StartButton
             // 
@@ -77,7 +91,7 @@
             // 
             // AddButton
             // 
-            this.AddButton.Location = new System.Drawing.Point(295, 56);
+            this.AddButton.Location = new System.Drawing.Point(370, 98);
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(75, 23);
             this.AddButton.TabIndex = 3;
@@ -87,25 +101,13 @@
             // 
             // RemoveInputButton
             // 
-            this.RemoveInputButton.Location = new System.Drawing.Point(295, 85);
+            this.RemoveInputButton.Location = new System.Drawing.Point(370, 127);
             this.RemoveInputButton.Name = "RemoveInputButton";
             this.RemoveInputButton.Size = new System.Drawing.Size(75, 23);
             this.RemoveInputButton.TabIndex = 4;
             this.RemoveInputButton.Text = "Remove Input";
             this.RemoveInputButton.UseVisualStyleBackColor = true;
             this.RemoveInputButton.Click += new System.EventHandler(this.RemoveInputButton_Click);
-            // 
-            // Input
-            // 
-            this.Input.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Input.HeaderText = "Input";
-            this.Input.Name = "Input";
-            // 
-            // Phrase
-            // 
-            this.Phrase.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Phrase.HeaderText = "phrase";
-            this.Phrase.Name = "Phrase";
             // 
             // inpLabel
             // 
@@ -119,7 +121,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(165, 30);
+            this.label1.Location = new System.Drawing.Point(153, 30);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(84, 13);
             this.label1.TabIndex = 6;
@@ -128,7 +130,7 @@
             // UpdatePhrasesButton
             // 
             this.UpdatePhrasesButton.Enabled = false;
-            this.UpdatePhrasesButton.Location = new System.Drawing.Point(281, 157);
+            this.UpdatePhrasesButton.Location = new System.Drawing.Point(351, 156);
             this.UpdatePhrasesButton.Name = "UpdatePhrasesButton";
             this.UpdatePhrasesButton.Size = new System.Drawing.Size(109, 23);
             this.UpdatePhrasesButton.TabIndex = 7;
@@ -136,11 +138,16 @@
             this.UpdatePhrasesButton.UseVisualStyleBackColor = true;
             this.UpdatePhrasesButton.Click += new System.EventHandler(this.UpdatePhrasesButton_Click);
             // 
+            // Duration
+            // 
+            this.Duration.HeaderText = "Duration (ms)";
+            this.Duration.Name = "Duration";
+            // 
             // GVC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(402, 390);
+            this.ClientSize = new System.Drawing.Size(490, 390);
             this.Controls.Add(this.UpdatePhrasesButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.inpLabel);
@@ -169,6 +176,7 @@
         private System.Windows.Forms.Label inpLabel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button UpdatePhrasesButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Duration;
     }
 }
 
