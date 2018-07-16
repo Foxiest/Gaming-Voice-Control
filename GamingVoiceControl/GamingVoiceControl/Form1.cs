@@ -140,7 +140,9 @@ namespace GamingVoiceControl
                             if (ThingToInput.Contains("mouse_leftclick"))
                             {
                                 InputSimulator IS = new InputSimulator();
-                                IS.Mouse.LeftButtonClick();
+                                IS.Mouse.LeftButtonDown().XButtonClick(1);
+                                Thread.Sleep(DurationDict[e.Result.Text]);
+                                IS.Mouse.LeftButtonUp();
                                 /*
                                 uint X = (uint)Cursor.Position.X;
                                 uint Y = (uint)Cursor.Position.Y;
@@ -150,7 +152,8 @@ namespace GamingVoiceControl
                             }
                             else if (ThingToInput.Contains("mouse_rightclick"))
                             {
-                                IS.Mouse.LeftButtonClick();
+                                InputSimulator IS = new InputSimulator();
+                                IS.Mouse.RightButtonDown().XButtonClick(2);
                                 //MessageBox.Show("Moving right down");
                             }
 
