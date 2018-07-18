@@ -82,8 +82,8 @@ namespace GamingVoiceControl
                         break;
 
                 case (Status.Standby):
-                    StatusLabel.Text = "Status: Standby, Press start";
-                    StatusLabel.BackColor = System.Drawing.Color.Crimson;
+                    StatusLabel.Text = "Status: Ready, Press start";
+                    StatusLabel.BackColor = System.Drawing.Color.Orange;
                     break;
 
                 case (Status.Working):
@@ -121,8 +121,8 @@ namespace GamingVoiceControl
                         else
                         {
                             DurationDict.Add((string)DVR.Cells[1].Value, 10);
+                            DVR.Cells[2].Value = 10;
                         }
-                        MessageBox.Show((string)DVR.Cells[0].Value + " " + (string)DVR.Cells[1].Value);
                     }
                 }
             }
@@ -174,22 +174,25 @@ namespace GamingVoiceControl
                 if (ControlDict.ContainsKey(e.Result.Text))
                 {
                     Process p = Process.GetProcessesByName(ProcessName).FirstOrDefault();
+                    if(p == null)
+                    {
+                        foreach(Process PP in Process.GetProcesses())
+                        {
+                            //if no process found from user supplied name, try closest match
+                            if (PP.ProcessName.Contains(ProcessName){
+                                p = PP;
+                                break;
+                            }
+                        }
+                    }
                     if (p != null)
                     {
-
                         IntPtr h = p.MainWindowHandle;
                         SetForegroundWindow(h);
-                       
-
-
                         string ThingToInput = ControlDict[e.Result.Text];
                         //Check for mouse controls
                         if (ThingToInput.Contains("mouse_"))
                         {
-                            const int MOUSEEVENTF_LEFTDOWN = 0x02;
-                            const int MOUSEEVENTF_LEFTUP = 0x04;
-                            const int MOUSEEVENTF_RIGHTDOWN = 0x08;
-                            const int MOUSEEVENTF_RIGHTUP = 0x10;
 
                             if (ThingToInput.Contains("mouse_leftclick"))
                             {
@@ -203,23 +206,30 @@ namespace GamingVoiceControl
                             {
                                 InputSimulator IS = new InputSimulator();
                                 IS.Mouse.RightButtonDown().XButtonClick(2);
-                                //MessageBox.Show("Moving right down");
+                                
                             }
 
-                            //MessageBox.Show("mouse worked");
+                            
                         }
                         else
                         {
-                            //MessageBox.Show("GOT COMMAND");
+                            
 
                            
                                 InputSimulator IS = new InputSimulator();
-                                var x = GetKeyCode(Convert.ToChar(ThingToInput.ToUpper()));
+                            foreach (char c in ThingToInput.ToUpper())
+                            {
+                                var x = GetKeyCode(Convert.ToChar(c);
                                 IS.Keyboard.KeyDown(x);
                                 Thread.Sleep(DurationDict[e.Result.Text]);
                                 IS.Keyboard.KeyUp(x);
-                            //MessageBox.Show("moving " + ThingToInput);
+                            }
+                            
                         }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No Process found under name " + ProcessName);
                     }
                 }
 
@@ -268,7 +278,7 @@ namespace GamingVoiceControl
 
 //TODO
 //File saving/loading
-//default duration if none listed
+//default duration if none listed (done)
 //warning if same key used twice
-//warning if null program
-//
+//warning if null program (done)
+//char iterator for keyboard input (done)

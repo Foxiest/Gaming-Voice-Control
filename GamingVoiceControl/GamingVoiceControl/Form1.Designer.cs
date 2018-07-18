@@ -199,7 +199,7 @@
             // 
             this.StatusLabel.AutoSize = true;
             this.StatusLabel.BackColor = System.Drawing.Color.Orange;
-            this.StatusLabel.Location = new System.Drawing.Point(367, 270);
+            this.StatusLabel.Location = new System.Drawing.Point(348, 269);
             this.StatusLabel.Name = "StatusLabel";
             this.StatusLabel.Size = new System.Drawing.Size(92, 13);
             this.StatusLabel.TabIndex = 13;
