@@ -48,6 +48,7 @@
             this.StatusLabel = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.UseWindowCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ControlGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -154,7 +155,7 @@
             // 
             // ProcessNameBox
             // 
-            this.ProcessNameBox.Location = new System.Drawing.Point(289, 355);
+            this.ProcessNameBox.Location = new System.Drawing.Point(289, 345);
             this.ProcessNameBox.Name = "ProcessNameBox";
             this.ProcessNameBox.Size = new System.Drawing.Size(189, 20);
             this.ProcessNameBox.TabIndex = 8;
@@ -163,7 +164,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(400, 338);
+            this.label2.Location = new System.Drawing.Point(400, 320);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 13);
             this.label2.TabIndex = 9;
@@ -172,7 +173,7 @@
             // UpdateProccessName
             // 
             this.UpdateProccessName.Enabled = false;
-            this.UpdateProccessName.Location = new System.Drawing.Point(229, 353);
+            this.UpdateProccessName.Location = new System.Drawing.Point(229, 346);
             this.UpdateProccessName.Name = "UpdateProccessName";
             this.UpdateProccessName.Size = new System.Drawing.Size(54, 23);
             this.UpdateProccessName.TabIndex = 10;
@@ -214,11 +215,23 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // checkBox1
+            // 
+            this.UseWindowCheckBox.AutoSize = true;
+            this.UseWindowCheckBox.Location = new System.Drawing.Point(326, 371);
+            this.UseWindowCheckBox.Name = "checkBox1";
+            this.UseWindowCheckBox.Size = new System.Drawing.Size(169, 17);
+            this.UseWindowCheckBox.TabIndex = 14;
+            this.UseWindowCheckBox.Text = "Use forground window instead";
+            this.UseWindowCheckBox.UseVisualStyleBackColor = true;
+            this.UseWindowCheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // GVC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(490, 390);
+            this.Controls.Add(this.UseWindowCheckBox);
             this.Controls.Add(this.StatusLabel);
             this.Controls.Add(this.LoadButton);
             this.Controls.Add(this.SaveButton);
@@ -263,6 +276,7 @@
         private System.Windows.Forms.Label StatusLabel;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.CheckBox UseWindowCheckBox;
     }
 }
 

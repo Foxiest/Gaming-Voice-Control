@@ -181,11 +181,14 @@ namespace GamingVoiceControl
                         }
                     }
                 }
-                if (p != null)
+                if (p != null || UseWindowCheckBox.Checked)
                 {
-                    IntPtr h = p.MainWindowHandle;
-                    SetForegroundWindow(h);
-                    string ThingToInput = ControlDict[e.Result.Text];
+                    if (!UseWindowCheckBox.Checked)
+                    {
+                        IntPtr h = p.MainWindowHandle;
+                        SetForegroundWindow(h);
+                    }
+                        string ThingToInput = ControlDict[e.Result.Text];
                     //Check for mouse controls
                     if (ThingToInput.Contains("mouse_"))
                     {
@@ -196,13 +199,11 @@ namespace GamingVoiceControl
                             IS.Mouse.LeftButtonDown().XButtonClick(1);
                             Thread.Sleep(DurationDict[e.Result.Text]);
                             IS.Mouse.LeftButtonUp();
-
                         }
                         else if (ThingToInput.Contains("mouse_rightclick"))
                         {
                             InputSimulator IS = new InputSimulator();
                             IS.Mouse.RightButtonDown().XButtonClick(2);
-
                         }
                     }
                     else
@@ -328,6 +329,20 @@ namespace GamingVoiceControl
                 UpdatePhrasesButton.Enabled = false;
             }
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (UseWindowCheckBox.Checked)
+            {
+                ProcessNameBox.Enabled = false;
+                ProcessNameBox.Text = "";
+                UpdateProccessName.Enabled = false;
+            }
+            else
+            {
+                ProcessNameBox.Enabled = true;
+            }
+        }
     }
 }
     
@@ -336,6 +351,7 @@ namespace GamingVoiceControl
 //TODO
 //File saving/loading
 //default duration if none listed (done)
-//warning if same key used twice
+// allow for multiple inputs under the same key
 //warning if null program (done)
+//allow for chosen program or for foreground checkbox
 //char iterator for keyboard input (done)
