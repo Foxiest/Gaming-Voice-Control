@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GVC));
             this.ControlGrid = new System.Windows.Forms.DataGridView();
             this.Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Phrase = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -232,6 +233,7 @@
             this.Controls.Add(this.StopButton);
             this.Controls.Add(this.StartButton);
             this.Controls.Add(this.ControlGrid);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GVC";
             this.Text = "Gaming Voice Control";
             ((System.ComponentModel.ISupportInitialize)(this.ControlGrid)).EndInit();
