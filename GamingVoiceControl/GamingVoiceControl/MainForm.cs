@@ -333,14 +333,13 @@ namespace GamingVoiceControl
                             {
                                 ProcessName = SR.ReadLine();
                                 ProcessNameLabel.Text = ProcessName;
-                                UpdateProccessName.Enabled = false;
+                                UpdateProccessName.Enabled = true;
                             }
                         }
                     }
 
                     //now call update
                     //untoggle after test
-                
                 UpdatePhrases();
                 UpdatePhrasesButton.Enabled = false;
             }
