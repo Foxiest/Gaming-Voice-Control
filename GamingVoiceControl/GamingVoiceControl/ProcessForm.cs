@@ -27,7 +27,7 @@ namespace GamingVoiceControl
             var Processes = Process.GetProcesses();
             foreach(Process P in Processes)
             {
-                ProcessList.Items.Add(P.ProcessName + " " + P.Id);
+                ProcessList.Items.Add(P.ProcessName);
             }
         }
 
