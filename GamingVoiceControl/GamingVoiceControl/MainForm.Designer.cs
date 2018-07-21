@@ -40,8 +40,6 @@
             this.inpLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.UpdatePhrasesButton = new System.Windows.Forms.Button();
-            this.ProcessNameBox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.UpdateProccessName = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.LoadButton = new System.Windows.Forms.Button();
@@ -49,6 +47,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.UseWindowCheckBox = new System.Windows.Forms.CheckBox();
+            this.ProcessNameLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ControlGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -153,31 +152,13 @@
             this.UpdatePhrasesButton.UseVisualStyleBackColor = true;
             this.UpdatePhrasesButton.Click += new System.EventHandler(this.UpdatePhrasesButton_Click);
             // 
-            // ProcessNameBox
-            // 
-            this.ProcessNameBox.Location = new System.Drawing.Point(289, 345);
-            this.ProcessNameBox.Name = "ProcessNameBox";
-            this.ProcessNameBox.Size = new System.Drawing.Size(189, 20);
-            this.ProcessNameBox.TabIndex = 8;
-            this.ProcessNameBox.TextChanged += new System.EventHandler(this.ProcessNameBox_TextChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(400, 320);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Process name:";
-            // 
             // UpdateProccessName
             // 
-            this.UpdateProccessName.Enabled = false;
-            this.UpdateProccessName.Location = new System.Drawing.Point(229, 346);
+            this.UpdateProccessName.Location = new System.Drawing.Point(351, 329);
             this.UpdateProccessName.Name = "UpdateProccessName";
-            this.UpdateProccessName.Size = new System.Drawing.Size(54, 23);
+            this.UpdateProccessName.Size = new System.Drawing.Size(98, 23);
             this.UpdateProccessName.TabIndex = 10;
-            this.UpdateProccessName.Text = "Update";
+            this.UpdateProccessName.Text = "Choose Process:";
             this.UpdateProccessName.UseVisualStyleBackColor = true;
             this.UpdateProccessName.Click += new System.EventHandler(this.UpdateProccessName_Click);
             // 
@@ -215,29 +196,37 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // checkBox1
+            // UseWindowCheckBox
             // 
             this.UseWindowCheckBox.AutoSize = true;
-            this.UseWindowCheckBox.Location = new System.Drawing.Point(326, 371);
-            this.UseWindowCheckBox.Name = "checkBox1";
+            this.UseWindowCheckBox.Location = new System.Drawing.Point(320, 371);
+            this.UseWindowCheckBox.Name = "UseWindowCheckBox";
             this.UseWindowCheckBox.Size = new System.Drawing.Size(169, 17);
             this.UseWindowCheckBox.TabIndex = 14;
             this.UseWindowCheckBox.Text = "Use forground window instead";
             this.UseWindowCheckBox.UseVisualStyleBackColor = true;
-            this.UseWindowCheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.UseWindowCheckBox.CheckedChanged += new System.EventHandler(this.UseWindowCheckBox_CheckedChanged);
+            // 
+            // ProcessNameLabel
+            // 
+            this.ProcessNameLabel.AutoSize = true;
+            this.ProcessNameLabel.Location = new System.Drawing.Point(317, 355);
+            this.ProcessNameLabel.Name = "ProcessNameLabel";
+            this.ProcessNameLabel.Size = new System.Drawing.Size(48, 13);
+            this.ProcessNameLabel.TabIndex = 15;
+            this.ProcessNameLabel.Text = "Process:";
             // 
             // GVC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(490, 390);
+            this.ClientSize = new System.Drawing.Size(490, 397);
+            this.Controls.Add(this.ProcessNameLabel);
             this.Controls.Add(this.UseWindowCheckBox);
             this.Controls.Add(this.StatusLabel);
             this.Controls.Add(this.LoadButton);
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.UpdateProccessName);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.ProcessNameBox);
             this.Controls.Add(this.UpdatePhrasesButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.inpLabel);
@@ -268,8 +257,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button UpdatePhrasesButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn Duration;
-        private System.Windows.Forms.TextBox ProcessNameBox;
-        private System.Windows.Forms.Label label2;
         public System.Windows.Forms.Button UpdateProccessName;
         private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.Button LoadButton;
@@ -277,6 +264,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.CheckBox UseWindowCheckBox;
+        private System.Windows.Forms.Label ProcessNameLabel;
     }
 }
 

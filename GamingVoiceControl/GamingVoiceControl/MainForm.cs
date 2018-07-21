@@ -24,6 +24,7 @@ namespace GamingVoiceControl
         Dictionary<string, string> ControlDict = new Dictionary<string, string>();
         Dictionary<string, int> DurationDict = new Dictionary<string, int>();
         SpeechRecognitionEngine SRE = new SpeechRecognitionEngine();
+        ProcessForm PF = null;
         public string ProcessName = "";
 
         [DllImport("User32.dll")]
@@ -167,7 +168,6 @@ namespace GamingVoiceControl
             if (!StartButton.Enabled && ControlDict.ContainsKey(e.Result.Text))
             {
                 //find phrase in dict, use value as input
-
                 Process p = Process.GetProcessesByName(ProcessName).FirstOrDefault();
                 if (p == null)
                 {
@@ -251,15 +251,31 @@ namespace GamingVoiceControl
             StartButton.Enabled = false;
         }
 
-        private void ProcessNameBox_TextChanged(object sender, EventArgs e)
+        private void ProcessNameLabel_TextChanged(object sender, EventArgs e)
         {
             UpdateProccessName.Enabled = true;
         }
 
         private void UpdateProccessName_Click(object sender, EventArgs e)
         {
-            ProcessName = ProcessNameBox.Text;
-            UpdateProccessName.Enabled = false;
+            //bad practice? declaring near global scope variable, will research alternative methods
+            //of passing data bewteen form's methods
+            PF = new ProcessForm();
+            PF.Show();
+            PF.SelectButton.Click += PFSelectButton_Click;
+        }
+
+        private void PFSelectButton_Click(object sender, EventArgs e)
+        {
+            //make sure something is actually selected
+            if (PF.ProcessName != "")
+            {
+                ProcessName = PF.ProcessName;
+                ProcessNameLabel.Text = ProcessName;
+                PF.Close();
+                PF.Dispose();
+                PF = null;
+            }
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
@@ -316,7 +332,7 @@ namespace GamingVoiceControl
                             if (type == "PROCESS")
                             {
                                 ProcessName = SR.ReadLine();
-                                ProcessNameBox.Text = ProcessName;
+                                ProcessNameLabel.Text = ProcessName;
                                 UpdateProccessName.Enabled = false;
                             }
                         }
@@ -330,17 +346,17 @@ namespace GamingVoiceControl
             }
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void UseWindowCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (UseWindowCheckBox.Checked)
             {
-                ProcessNameBox.Enabled = false;
-                ProcessNameBox.Text = "";
+                ProcessNameLabel.Enabled = false;
                 UpdateProccessName.Enabled = false;
             }
             else
             {
-                ProcessNameBox.Enabled = true;
+                UpdateProccessName.Enabled = true;
+                ProcessNameLabel.Enabled = true;
             }
         }
     }
